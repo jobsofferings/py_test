@@ -203,86 +203,89 @@ def 额度查询(key):
 
 
 
-##% 制作界面
-#模块1-生成段落
-input_password_app1 = Textbox(lines=1, label="请输入密码")
-input1_app1 = Textbox(lines=1, label="请输入你的论文标题，例如“上市公司财务造假识别研究——以易见股份为例”")
-input2_app1 = Textbox(lines=2, label="请输入你要写作的章节，例如“研究背景与动机”")
-output1_app1 = Textbox(lines=12, label="来自【凯泽助手】的生成段落")
-slider_字数控制 = gr.Slider(300, 1500, step = 100, value=300, label="字数", info="选择生成的字数，范围在300-1500之间")
-with gr.Blocks() as app1: 
-    gr.Interface(fn=内容生成, inputs=[input_password_app1, input1_app1, input2_app1, slider_字数控制], outputs=output1_app1, title="段落生成",
-             # description="凯泽论文助手",
-             theme=gr.themes.Default(),
-             flagging_dir=r"D:/",
-             #concurrency_limit=10,
-             #template=custom_template
-             )
+def start_web():
+  ##% 制作界面
+  #模块1-生成段落
+  input_password_app1 = Textbox(lines=1, label="请输入密码")
+  input1_app1 = Textbox(lines=1, label="请输入你的论文标题，例如“上市公司财务造假识别研究——以易见股份为例”")
+  input2_app1 = Textbox(lines=2, label="请输入你要写作的章节，例如“研究背景与动机”")
+  output1_app1 = Textbox(lines=12, label="来自【凯泽助手】的生成段落")
+  slider_字数控制 = gr.Slider(300, 1500, step = 100, value=300, label="字数", info="选择生成的字数，范围在300-1500之间")
+  with gr.Blocks() as app1: 
+      gr.Interface(fn=内容生成, inputs=[input_password_app1, input1_app1, input2_app1, slider_字数控制], outputs=output1_app1, title="段落生成",
+              # description="凯泽论文助手",
+              theme=gr.themes.Default(),
+              flagging_dir=r"D:/",
+              #concurrency_limit=10,
+              #template=custom_template
+              )
 
 
-#模块2-扩写段落
-input_password_app2 = Textbox(lines=1, label="请输入密码")
-input1_app2 = Textbox(lines=8, label="请输入你要扩写的论文段落")
-output1_app2 = Textbox(lines=12, label="来自【凯泽助手】的扩写段落")
-with gr.Blocks() as app2: 
-    gr.Interface(fn=内容扩写, inputs=[input_password_app2, input1_app2], outputs=output1_app2, title="段落扩写",
-             # description="凯泽论文助手",
-             theme=gr.themes.Default(),
-             flagging_dir=r"D:/",
-             #concurrency_limit=10,
-             #template=custom_template
-             )
+  #模块2-扩写段落
+  input_password_app2 = Textbox(lines=1, label="请输入密码")
+  input1_app2 = Textbox(lines=8, label="请输入你要扩写的论文段落")
+  output1_app2 = Textbox(lines=12, label="来自【凯泽助手】的扩写段落")
+  with gr.Blocks() as app2: 
+      gr.Interface(fn=内容扩写, inputs=[input_password_app2, input1_app2], outputs=output1_app2, title="段落扩写",
+              # description="凯泽论文助手",
+              theme=gr.themes.Default(),
+              flagging_dir=r"D:/",
+              #concurrency_limit=10,
+              #template=custom_template
+              )
 
 
-#模块3-文献综述
-global tmpdir
-with tempfile.TemporaryDirectory(dir='.') as tmpdir:
-    # 定义输入和输出
-    input_password_app3 = Textbox(lines=1, label="请输入密码")
-    input1_app3 = Textbox(lines=1, label="请输入文献综述的主题。例如：财务造假的识别与预测")
-    input2_app3 = gr.components.File(label="上传文件")
-    output1_app3 = gr.Textbox(label="输出内容")
+  #模块3-文献综述
+  global tmpdir
+  with tempfile.TemporaryDirectory(dir='.') as tmpdir:
+      # 定义输入和输出
+      input_password_app3 = Textbox(lines=1, label="请输入密码")
+      input1_app3 = Textbox(lines=1, label="请输入文献综述的主题。例如：财务造假的识别与预测")
+      input2_app3 = gr.components.File(label="上传文件")
+      output1_app3 = gr.Textbox(label="输出内容")
 
-    # 创建 Gradio 应用程序g
-    app3 = gr.Interface(fn=文献综述, 
-                       inputs=[input_password_app3, input1_app3, input2_app3], 
-                       outputs=output1_app3, 
-                       title="文献综述",
-                       description="使用方法：下载模板文件，按要求整理好excel文件后，上传文件生成文献综述。\n\n模板文件[点击此处](https://www.modelscope.cn/api/v1/studio/chenmh/KaizePaperAssistant/repo?Revision=master&FilePath=%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0%E6%95%B4%E7%90%86%E6%A8%A1%E6%9D%BF.xlsx)下载。\n\n建议：不要一次性将文献全部导入，而是将文献的主题归纳整理好之后，分批次导入。例如将文献分为：财务造假的识别与预测、财务造假的动因与影响因素、财务造假的经济后果与监管措施，分三次生成综述。"
-    )
-
-
-
-#模块4-报告内容提炼
-input_password_app4 = Textbox(lines=1, label="请输入密码")
-input1_app4 = Textbox(lines=8, label="请输入你要提炼的开题报告全文")
-input2_app4 = Textbox(lines=2, label="请输入提炼的主题（多个主题可用逗号隔开）")
-output1_app4 = Textbox(lines=12, label="来自【凯泽助手】的提炼内容")
-with gr.Blocks() as app4: 
-    gr.Interface(fn=内容提炼, inputs=[input_password_app4, input1_app4, input2_app4], outputs=output1_app4, title="开题报告内容提炼（v0.1测试版）",
-             # description="凯泽论文助手",
-             theme=gr.themes.Default(),
-             flagging_dir=r"D:/",
-             #concurrency_limit=10,
-             #template=custom_template
-             )
+      # 创建 Gradio 应用程序g
+      app3 = gr.Interface(fn=文献综述, 
+                        inputs=[input_password_app3, input1_app3, input2_app3], 
+                        outputs=output1_app3, 
+                        title="文献综述",
+                        description="使用方法：下载模板文件，按要求整理好excel文件后，上传文件生成文献综述。\n\n模板文件[点击此处](https://www.modelscope.cn/api/v1/studio/chenmh/KaizePaperAssistant/repo?Revision=master&FilePath=%E6%96%87%E7%8C%AE%E7%BB%BC%E8%BF%B0%E6%95%B4%E7%90%86%E6%A8%A1%E6%9D%BF.xlsx)下载。\n\n建议：不要一次性将文献全部导入，而是将文献的主题归纳整理好之后，分批次导入。例如将文献分为：财务造假的识别与预测、财务造假的动因与影响因素、财务造假的经济后果与监管措施，分三次生成综述。"
+      )
 
 
-#模块5-余额查询
-input_password_app5 = Textbox(lines=1, label="请输入密码")
-output_app5 = Textbox(lines=1, label="额度查询结果")
-with gr.Blocks() as app5: 
-    gr.Interface(fn=额度查询, inputs=input_password_app5, outputs=output_app5, title="额度查询",
-             # description="凯泽论文助手",
-             theme=gr.themes.Default(),
-             flagging_dir=r"D:/",
-             #concurrency_limit=10,
-             #template=custom_template
-             )
-demo = gr.TabbedInterface([app1, app2, app3, app4, app5],
-                          tab_names=["段落生成", "段落扩写", "文献综述", "开题报告内容提炼（v0.1测试版）", "额度查询"],
-                          title="凯泽教育论文写作助手",
-                          #description = "AI时代，你不应该和汽车比赛跑，而是应该考个驾照。"
-                          )
 
-demo.queue(concurrency_count=10).launch()
+  #模块4-报告内容提炼
+  input_password_app4 = Textbox(lines=1, label="请输入密码")
+  input1_app4 = Textbox(lines=8, label="请输入你要提炼的开题报告全文")
+  input2_app4 = Textbox(lines=2, label="请输入提炼的主题（多个主题可用逗号隔开）")
+  output1_app4 = Textbox(lines=12, label="来自【凯泽助手】的提炼内容")
+  with gr.Blocks() as app4: 
+      gr.Interface(fn=内容提炼, inputs=[input_password_app4, input1_app4, input2_app4], outputs=output1_app4, title="开题报告内容提炼（v0.1测试版）",
+              # description="凯泽论文助手",
+              theme=gr.themes.Default(),
+              flagging_dir=r"D:/",
+              #concurrency_limit=10,
+              #template=custom_template
+              )
+
+
+  #模块5-余额查询
+  input_password_app5 = Textbox(lines=1, label="请输入密码")
+  output_app5 = Textbox(lines=1, label="额度查询结果")
+  with gr.Blocks() as app5: 
+      gr.Interface(fn=额度查询, inputs=input_password_app5, outputs=output_app5, title="额度查询",
+              # description="凯泽论文助手",
+              theme=gr.themes.Default(),
+              flagging_dir=r"D:/",
+              #concurrency_limit=10,
+              #template=custom_template
+              )
+  demo = gr.TabbedInterface([app1, app2, app3, app4, app5],
+                            tab_names=["段落生成", "段落扩写", "文献综述", "开题报告内容提炼（v0.1测试版）", "额度查询"],
+                            title="凯泽教育论文写作助手",
+                            #description = "AI时代，你不应该和汽车比赛跑，而是应该考个驾照。"
+                            )
+
+  demo.queue(concurrency_count=10).launch()
+
+start_web()
