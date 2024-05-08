@@ -1,9 +1,9 @@
 from http.server import BaseHTTPRequestHandler
-# from app import start_web
+from app import start_web
 
 class handler(BaseHTTPRequestHandler):
 
-    # result = start_web()
+    result = start_web()
 
     def do_GET(self):
         self.send_response(200)
