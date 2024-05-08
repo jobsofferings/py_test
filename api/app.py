@@ -11,7 +11,7 @@ from gradio.components import Textbox
 import os
 import requests
 import json
-import pandas as pd
+# import pandas as pd
 import tempfile
 
 
@@ -92,7 +92,7 @@ def 内容扩写(password, input1):
 def 文献综述(password, theme, file_obj):
     # print('临时文件夹地址：{}'.format(tmpdir))
     # print('上传文件的地址：{}'.format(file_obj.name)) # 输出上传后的文件在gradio中保存的绝对地址
-
+    pd = []
     try:
         df = pd.read_excel(file_obj.name)
     except:
