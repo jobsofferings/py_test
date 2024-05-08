@@ -8,7 +8,7 @@ Created on Fri Oct 27 17:22:00 2023
 from openai import OpenAI
 import gradio as gr
 from gradio.components import Textbox
-import os
+# import os
 import requests
 import json
 # import pandas as pd
@@ -16,8 +16,10 @@ import tempfile
 
 
 
-BASE_URL = os.getenv('baseurl')
-API_SECRET_KEY = os.getenv('apikey')
+BASE_URL = '1'
+# BASE_URL = os.getenv('baseurl')
+API_SECRET_KEY = '2'
+# API_SECRET_KEY = os.getenv('apikey')
 
 
 # 定义函数-内容生成模块
