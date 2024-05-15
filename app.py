@@ -16,8 +16,8 @@ import tempfile
 
 
 
-BASE_URL = os.getenv('baseurl')
-API_SECRET_KEY = os.getenv('apikey')
+BASE_URL = "https://api.aigcbest.top/v1"
+# API_SECRET_KEY = os.getenv('apikey')
 
 
 # 定义函数-内容生成模块
@@ -286,6 +286,6 @@ def start_web():
                             #description = "AI时代，你不应该和汽车比赛跑，而是应该考个驾照。"
                             )
 
-  demo.queue(concurrency_count=10).launch()
+  demo.queue(concurrency_count=10).launch(server_name='0.0.0.0')
 
 start_web()
